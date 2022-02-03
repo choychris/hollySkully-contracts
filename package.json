@@ -1,0 +1,12 @@
+{
+  "name": "hollyskully-contracts",
+  "version": "1.0.0",
+  "repository": "https://github.com/choychris/hollySkully-contracts.git",
+  "author": "choychris <choylapchichris@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.4.2",
+    "erc721a": "^2.0.0"
+  },
+  "devDependencies": {}
+}
