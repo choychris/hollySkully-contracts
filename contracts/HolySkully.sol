@@ -9,18 +9,18 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 import "erc721a/contracts/ERC721A.sol";
 
-contract HollySkully is ERC721A, Ownable, ReentrancyGuard {
+contract HolySkully is ERC721A, Ownable, ReentrancyGuard {
     using Strings for uint256;
 
     string public baseURI; // i.e. ipfs://__CID__/
     string public uriSuffix = ".json";
-    string public hiddenMetadataUri;
+    string public hiddenMetadataUri; // i.e. ipfs://__CID__/hidden.json
 
     uint256 public publicSaleCost = 0.05 ether;
     uint256 public preSaleCost = 0.03 ether;
     uint256 public maxMintAmountPerTx = 5;
     uint256 public maxWhiteListMint = 5;
-    uint256 private maxSupply = 5; 
+    uint256 public constant maxSupply = 5; 
 
     uint32 public revealedTime;
     uint32 public preSaleStartTime;
@@ -48,12 +48,10 @@ contract HollySkully is ERC721A, Ownable, ReentrancyGuard {
 
     function initialize(
         string memory _hiddenMetadataUri,
-        uint256 _maxSupply,
         uint32 _revealedTime,
         uint32 _preSaleStartTime
     ) public onlyOwner {
         hiddenMetadataUri = _hiddenMetadataUri;
-        maxSupply = _maxSupply;
         revealedTime = _revealedTime;
         preSaleStartTime = _preSaleStartTime;
     }
@@ -161,28 +159,28 @@ contract HollySkully is ERC721A, Ownable, ReentrancyGuard {
                 : "";
     }
 
-    function setMerkleRoot(bytes32 _root) public onlyOwner {
-        merkleRoot = _root;
+    function setMerkleRoot(bytes32 _merkleRoot) public onlyOwner {
+        merkleRoot = _merkleRoot;
     }
 
-    function setPreSaleTime(uint32 timestamp) public onlyOwner {
-        preSaleStartTime = timestamp;
+    function setPreSaleTime(uint32 _preSaleStartTime) public onlyOwner {
+        preSaleStartTime = _preSaleStartTime;
     }
 
     function setPublicSaleTime(bool _publicSaleStart) public onlyOwner {
         publicSaleStart = _publicSaleStart;
     }
 
-    function setRevealTime(uint32 timestamp) public onlyOwner {
-        revealedTime = timestamp;
+    function setRevealTime(uint32 _revealedTime) public onlyOwner {
+        revealedTime = _revealedTime;
     }
 
-    function setPreSaleCost(uint256 _cost) public onlyOwner {
-        preSaleCost = _cost;
+    function setPreSaleCost(uint256 _preSaleCost) public onlyOwner {
+        preSaleCost = _preSaleCost;
     }
 
-    function setPublicSaleCost(uint256 _cost) public onlyOwner {
-        publicSaleCost = _cost;
+    function setPublicSaleCost(uint256 _publicSaleCost) public onlyOwner {
+        publicSaleCost = _publicSaleCost;
     }
 
     function setMaxMintAmountPerTx(uint256 _maxMintAmountPerTx)
@@ -190,6 +188,13 @@ contract HollySkully is ERC721A, Ownable, ReentrancyGuard {
         onlyOwner
     {
         maxMintAmountPerTx = _maxMintAmountPerTx;
+    }    
+    
+    function setMaxWhiteListMint(uint256 _maxWhiteListMint)
+        public
+        onlyOwner
+    {
+        maxWhiteListMint = _maxWhiteListMint;
     }
 
     function setHiddenMetadataUri(string memory _hiddenMetadataUri)

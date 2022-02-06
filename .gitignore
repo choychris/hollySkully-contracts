@@ -105,3 +105,6 @@ dist
 
 # keys
 secrets.json
+
+# mac
+.DS_Store
